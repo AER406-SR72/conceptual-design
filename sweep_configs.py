@@ -11,7 +11,8 @@ volumes = {}
 masses = {}
 
 MIN_CU = 100
-EMPTY_MASS = 1400
+MAX_CU = 800
+EMPTY_MASS = 1000
 
 # Critical payload mass gives 0.25 fraction
 critical_payload_mass = EMPTY_MASS / 3
@@ -19,7 +20,10 @@ critical_payload_mass = EMPTY_MASS / 3
 for i in range(0, 9):
     for j in range(0, 9):
         for k in range(0, 5):
-            if total_cargo_units([i, j, k]) < 100:
+            if (
+                total_cargo_units([i, j, k]) < MIN_CU
+                or total_cargo_units([i, j, k]) > MAX_CU
+            ):
                 # Infeasible
                 continue
             if total_payload_mass([i, j, k]) > critical_payload_mass:

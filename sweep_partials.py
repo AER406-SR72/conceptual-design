@@ -1,9 +1,10 @@
-from metrics import partial_derivatives
+from metrics import total_cargo_units, partial_derivatives
 
 derivs = {}
 
 MIN_CU = 100
-EMPTY_MASS = 1400
+MAX_CU = 800
+EMPTY_MASS = 800
 
 # Critical payload mass gives 0.25 fraction
 critical_payload_mass = EMPTY_MASS / 3
@@ -11,6 +12,12 @@ critical_payload_mass = EMPTY_MASS / 3
 for i in range(0, 8):
     for j in range(0, 8):
         for k in range(0, 4):
+            if (
+                total_cargo_units([i, j, k]) < MIN_CU
+                or total_cargo_units([i, j, k]) > MAX_CU
+            ):
+                # Infeasible
+                continue
             derivs[(i, j, k)] = partial_derivatives([i, j, k], EMPTY_MASS)
 
 # write to file
