@@ -15,8 +15,8 @@ for i in range(0, 8):
 
 # write to file
 with open(f"derivatives_{EMPTY_MASS:.0f}.csv", "w") as f:
-    f.write("Configuration (P/G/T), d/dP, d/dG, d/dT\n")
+    f.write("Configuration (P|G|T), d/dP, d/dG, d/dT\n")
     for key in derivs:
         f.write(
-            f"{'/'.join(str(k) for k in key)}, {derivs[key][0]:.2f}, {derivs[key][1]:.2f}, {derivs[key][2]:.2f}\n"
+            f"{'|'.join(str(k) for k in key)}, {derivs[key][0]:.2f}, {derivs[key][1]:.2f}, {derivs[key][2]:.2f}\n"
         )

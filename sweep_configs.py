@@ -37,16 +37,16 @@ mass_values = list(masses.values())
 # find the best configuration in terms of payload to mass ratio
 payload_to_mass_ratio = {key: value / masses[key] for key, value in configs.items()}
 best_config = max(payload_to_mass_ratio, key=payload_to_mass_ratio.get)
-print(f"Best configuration: {best_config}")
+print(f"Best payload/mass configuration: {best_config}")
 
 # write to file
 with open(f"configurations_{EMPTY_MASS:.0f}.csv", "w") as f:
     f.write(
-        "Configuration (P/G/T), Objective Multiplier, Total Volume (cm^3), Payload Mass (g), Score/Mass Ratio\n"
+        "Configuration (P|G|T), Objective Multiplier, Total Volume (cm^3), Payload Mass (g), Score/Mass Ratio\n"
     )
     for key in configs:
         f.write(
-            f"{'/'.join(str(k) for k in key)}, {configs[key]:.2f}, {volumes[key]:.2f}, {masses[key]:.2f}, {payload_to_mass_ratio[key]:.4f}\n"
+            f"{'|'.join(str(k) for k in key)}, {configs[key]:.2f}, {volumes[key]:.2f}, {masses[key]:.2f}, {payload_to_mass_ratio[key]:.4f}\n"
         )
 
 # plot
@@ -90,24 +90,24 @@ plt.axhline(y=1, color="r", linestyle="-")
 plt.grid()
 
 
-plt.suptitle(f"Empty Mass: {EMPTY_MASS}g")
+plt.suptitle(f"Empty Mass: {EMPTY_MASS}g\nR|G|B Colour = P|G|T Ratios")
 plt.savefig(f"configurations_{EMPTY_MASS:.0f}.png")
 
-# 3D plot
-fig = plt.figure()
-ax = fig.add_subplot(111, projection="3d")
-# scatter: colour = score, position = configuration
-ax.scatter(
-    [key[0] for key in configs],
-    [key[1] for key in configs],
-    [key[2] for key in configs],
-    c=config_values,
-    s=[5 * c for c in config_values],
-    alpha=0.3,
-)
-ax.set_xlabel("Ping Pong Balls")
-ax.set_ylabel("Golf Balls")
-ax.set_zlabel("Tennis Balls")
+# # 3D plot
+# fig = plt.figure()
+# ax = fig.add_subplot(111, projection="3d")
+# # scatter: colour = score, position = configuration
+# ax.scatter(
+#     [key[0] for key in configs],
+#     [key[1] for key in configs],
+#     [key[2] for key in configs],
+#     c=config_values,
+#     s=[5 * c for c in config_values],
+#     alpha=0.3,
+# )
+# ax.set_xlabel("Ping Pong Balls")
+# ax.set_ylabel("Golf Balls")
+# ax.set_zlabel("Tennis Balls")
 
 
 plt.show()
