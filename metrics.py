@@ -77,3 +77,32 @@ def total_volume(payload_configuration: list[int]) -> float:
         total_payload_volume += payload_configuration[i] * PAYLOAD_ITEMS[i].volume
 
     return total_payload_volume
+
+
+def partial_derivatives(
+    payload_configuration: list[int], empty_weight: float
+) -> list[float]:
+    """
+    Calculates the partial derivatives of the objective function with respect to the number of ping pong balls, golf balls, and tennis balls
+
+    Payload configuration goes like [number of ping pong balls, number of golf balls, number of tennis balls]
+
+    Empty weight is the weight of the empty plane
+
+    Uses a "finite difference" approximation using forward differences
+
+    """
+    # Calculate the partial derivatives of the objective function with respect to the number of ping pong balls, golf balls, and tennis balls
+    partial_derivatives = [0, 0, 0]
+    score_base = objective_factor(payload_configuration, empty_weight)
+    for i in range(len(payload_configuration)):
+        # modify the payload configuration
+        payload_configuration[i] += 1
+        # calculate the new score
+        score_new = objective_factor(payload_configuration, empty_weight)
+        # calculate the partial derivative
+        partial_derivatives[i] = (score_new - score_base) / 1
+        # reset the payload configuration
+        payload_configuration[i] -= 1
+
+    return partial_derivatives
